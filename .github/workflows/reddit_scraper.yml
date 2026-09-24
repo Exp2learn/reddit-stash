@@ -101,9 +101,9 @@ jobs:
         fi
         echo "Using storage provider: $(cat $GITHUB_OUTPUT | grep provider | cut -d= -f2)"
 
-    # --- Storage: Download (Dropbox) ---
+    # --- Storage: Download (Dropbox) --- DISABLED for offline GDPR mode
     - name: Download from Dropbox
-      if: steps.storage.outputs.provider != 's3'
+      if: false
       timeout-minutes: 2
       env:
         DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
@@ -112,13 +112,13 @@ jobs:
       run: |
         STORAGE_PROVIDER=dropbox python storage_utils.py --download
 
-    # --- Storage: Download (S3) ---
+    # --- Storage: Download (S3) --- DISABLED for offline GDPR mode
     - name: Install S3 dependencies
-      if: steps.storage.outputs.provider == 's3'
+      if: false
       run: pip install -r requirements-s3.txt
 
     - name: Download from S3
-      if: steps.storage.outputs.provider == 's3'
+      if: false
       timeout-minutes: 5
       env:
         STORAGE_PROVIDER: s3
@@ -145,9 +145,9 @@ jobs:
       run: |
         python reddit_stash.py
 
-    # --- Storage: Upload (Dropbox) ---
+    # --- Storage: Upload (Dropbox) --- DISABLED for offline GDPR mode
     - name: Upload to Dropbox
-      if: steps.storage.outputs.provider != 's3'
+      if: false
       timeout-minutes: 50
       env:
         DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
@@ -156,9 +156,9 @@ jobs:
       run: |
         STORAGE_PROVIDER=dropbox python storage_utils.py --upload
 
-    # --- Storage: Upload (S3) ---
+    # --- Storage: Upload (S3) --- DISABLED for offline GDPR mode
     - name: Upload to S3
-      if: steps.storage.outputs.provider == 's3'
+      if: false
       timeout-minutes: 50
       env:
         STORAGE_PROVIDER: s3
